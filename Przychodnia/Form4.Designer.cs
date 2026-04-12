@@ -39,6 +39,9 @@
             button6 = new Button();
             button7 = new Button();
             button8 = new Button();
+            labelId = new Label();
+            txt_id = new TextBox();
+            btnPotwierdz = new Button();
             panelMenu.SuspendLayout();
             panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv1).BeginInit();
@@ -71,6 +74,7 @@
             button4.TabIndex = 5;
             button4.Text = "Zarządzanie specjalizacjami";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button3
             // 
@@ -84,6 +88,7 @@
             button3.TabIndex = 4;
             button3.Text = "Zarządzanie wizytami";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -141,6 +146,7 @@
             dgv1.Name = "dgv1";
             dgv1.Size = new Size(1150, 650);
             dgv1.TabIndex = 2;
+            dgv1.Visible = false;
             // 
             // button6
             // 
@@ -150,6 +156,7 @@
             button6.TabIndex = 3;
             button6.Text = "Pobierz Użytkowników";
             button6.UseVisualStyleBackColor = true;
+            button6.Visible = false;
             button6.Click += button6_Click;
             // 
             // button7
@@ -160,6 +167,7 @@
             button7.TabIndex = 4;
             button7.Text = "Dodaj Użytkownika";
             button7.UseVisualStyleBackColor = true;
+            button7.Visible = false;
             // 
             // button8
             // 
@@ -169,6 +177,35 @@
             button8.TabIndex = 5;
             button8.Text = "Usuń Użytkownika";
             button8.UseVisualStyleBackColor = true;
+            button8.Visible = false;
+            // 
+            // labelId
+            // 
+            labelId.AutoSize = true;
+            labelId.Location = new Point(1252, 119);
+            labelId.Name = "labelId";
+            labelId.Size = new Size(27, 15);
+            labelId.TabIndex = 6;
+            labelId.Text = " ID  ";
+            labelId.Visible = false;
+            // 
+            // txt_id
+            // 
+            txt_id.Location = new Point(1249, 137);
+            txt_id.Name = "txt_id";
+            txt_id.Size = new Size(30, 23);
+            txt_id.TabIndex = 7;
+            txt_id.Visible = false;
+            // 
+            // btnPotwierdz
+            // 
+            btnPotwierdz.Location = new Point(1285, 137);
+            btnPotwierdz.Name = "btnPotwierdz";
+            btnPotwierdz.Size = new Size(100, 23);
+            btnPotwierdz.TabIndex = 8;
+            btnPotwierdz.Text = "Potwierdź";
+            btnPotwierdz.UseVisualStyleBackColor = true;
+            btnPotwierdz.Visible = false;
             // 
             // Form4
             // 
@@ -177,6 +214,9 @@
             AutoScroll = true;
             AutoSize = true;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(btnPotwierdz);
+            Controls.Add(txt_id);
+            Controls.Add(labelId);
             Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(button6);
@@ -189,6 +229,7 @@
             panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -204,5 +245,10 @@
         private Button button6;
         private Button button7;
         private Button button8;
+
+        // nowe pola
+        private Label labelId;
+        private TextBox txt_id;
+        private Button btnPotwierdz;
     }
 }
