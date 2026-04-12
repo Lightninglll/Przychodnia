@@ -42,9 +42,17 @@
             labelId = new Label();
             txt_id = new TextBox();
             btnPotwierdz = new Button();
+            dgv2 = new DataGridView();
+            pobierz_lekarzy = new Button();
+            Dodaj_lekarza = new Button();
+            Usun_lekarza = new Button();
+            potwierdz_lek = new Button();
+            txt_lekarz_id = new TextBox();
+            id_lekarza = new Label();
             panelMenu.SuspendLayout();
             panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgv2).BeginInit();
             SuspendLayout();
             // 
             // panelMenu
@@ -209,6 +217,76 @@
             btnPotwierdz.Visible = false;
             btnPotwierdz.Click += btnPotwierdz_Click;
             // 
+            // dgv2
+            // 
+            dgv2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv2.Location = new Point(472, 231);
+            dgv2.Name = "dgv2";
+            dgv2.Size = new Size(1150, 650);
+            dgv2.TabIndex = 9;
+            dgv2.Visible = false;
+            // 
+            // pobierz_lekarzy
+            // 
+            pobierz_lekarzy.Location = new Point(974, 127);
+            pobierz_lekarzy.Name = "pobierz_lekarzy";
+            pobierz_lekarzy.Size = new Size(130, 40);
+            pobierz_lekarzy.TabIndex = 10;
+            pobierz_lekarzy.Text = "Pobierz Lekarzy";
+            pobierz_lekarzy.UseVisualStyleBackColor = true;
+            pobierz_lekarzy.Visible = false;
+            pobierz_lekarzy.Click += pobierz_lekarzy_Click;
+            // 
+            // Dodaj_lekarza
+            // 
+            Dodaj_lekarza.Location = new Point(838, 128);
+            Dodaj_lekarza.Name = "Dodaj_lekarza";
+            Dodaj_lekarza.Size = new Size(130, 40);
+            Dodaj_lekarza.TabIndex = 11;
+            Dodaj_lekarza.Text = "Dodaj Lekarza";
+            Dodaj_lekarza.UseVisualStyleBackColor = true;
+            Dodaj_lekarza.Visible = false;
+            Dodaj_lekarza.Click += Dodaj_lekarza_Click_1;
+            // 
+            // Usun_lekarza
+            // 
+            Usun_lekarza.Location = new Point(1110, 128);
+            Usun_lekarza.Name = "Usun_lekarza";
+            Usun_lekarza.Size = new Size(130, 40);
+            Usun_lekarza.TabIndex = 12;
+            Usun_lekarza.Text = "Usuń Lekarza";
+            Usun_lekarza.UseVisualStyleBackColor = true;
+            Usun_lekarza.Visible = false;
+            // 
+            // potwierdz_lek
+            // 
+            potwierdz_lek.Location = new Point(1352, 137);
+            potwierdz_lek.Name = "potwierdz_lek";
+            potwierdz_lek.Size = new Size(100, 23);
+            potwierdz_lek.TabIndex = 15;
+            potwierdz_lek.Text = "Potwierdź";
+            potwierdz_lek.UseVisualStyleBackColor = true;
+            potwierdz_lek.Visible = false;
+            potwierdz_lek.Click += potwierdz_lek_Click_1;
+            // 
+            // txt_lekarz_id
+            // 
+            txt_lekarz_id.Location = new Point(1246, 137);
+            txt_lekarz_id.Name = "txt_lekarz_id";
+            txt_lekarz_id.Size = new Size(100, 23);
+            txt_lekarz_id.TabIndex = 14;
+            txt_lekarz_id.Visible = false;
+            // 
+            // id_lekarza
+            // 
+            id_lekarza.AutoSize = true;
+            id_lekarza.Location = new Point(1246, 119);
+            id_lekarza.Name = "id_lekarza";
+            id_lekarza.Size = new Size(90, 15);
+            id_lekarza.TabIndex = 13;
+            id_lekarza.Text = " ID użytkownika";
+            id_lekarza.Visible = false;
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -216,6 +294,13 @@
             AutoScroll = true;
             AutoSize = true;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(potwierdz_lek);
+            Controls.Add(txt_lekarz_id);
+            Controls.Add(id_lekarza);
+            Controls.Add(Usun_lekarza);
+            Controls.Add(Dodaj_lekarza);
+            Controls.Add(pobierz_lekarzy);
+            Controls.Add(dgv2);
             Controls.Add(btnPotwierdz);
             Controls.Add(txt_id);
             Controls.Add(labelId);
@@ -230,6 +315,7 @@
             panelMenu.PerformLayout();
             panelLogo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgv1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgv2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -252,5 +338,12 @@
         private Label labelId;
         private TextBox txt_id;
         private Button btnPotwierdz;
+        private DataGridView dgv2;
+        private Button pobierz_lekarzy;
+        private Button Dodaj_lekarza;
+        private Button Usun_lekarza;
+        private Button potwierdz_lek;
+        private TextBox txt_lekarz_id;
+        private Label id_lekarza;
     }
 }

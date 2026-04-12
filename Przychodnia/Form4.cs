@@ -30,6 +30,12 @@ namespace Przychodnia
             if (txt_id != null) txt_id.Visible = false;
             if (btnPotwierdz != null) btnPotwierdz.Visible = false;
 
+            if (pobierz_lekarzy != null) pobierz_lekarzy.Visible = false;
+            if (dgv2 != null) dgv2.Visible = false;
+
+            if (Dodaj_lekarza != null) Dodaj_lekarza.Click += Dodaj_lekarza_Click;
+            if (Usun_lekarza != null) Usun_lekarza.Click += Usun_lekarza_Click;
+
             if (button8 != null) button8.Click += button8_Click;
         }
 
@@ -54,7 +60,8 @@ namespace Przychodnia
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var toHide = new Control[] { dgv1, button6, button7, button8, labelId, txt_id, btnPotwierdz };
+            // Ukryj elementy związane z zarządzaniem użytkownikami oraz ewentualne pola usuwania
+            var toHide = new Control[] { dgv1, button6, button7, button8, labelId, txt_id, btnPotwierdz, pobierz_lekarzy, dgv2, Dodaj_lekarza, Usun_lekarza, id_lekarza, txt_lekarz_id, potwierdz_lek };
             foreach (var c in toHide)
             {
                 if (c != null) c.Visible = false;
@@ -77,14 +84,47 @@ namespace Przychodnia
                     if (ctrl != null) ctrl.Visible = true;
                 }
             }
+
+            if (pobierz_lekarzy != null) pobierz_lekarzy.Visible = true;
+            if (dgv2 != null) dgv2.Visible = true;
+
+            if (Dodaj_lekarza != null) Dodaj_lekarza.Visible = true;
+            if (Usun_lekarza != null) Usun_lekarza.Visible = true;
+
+            if (pobierz_lekarzy != null)
+            {
+                pobierz_lekarzy.PerformClick();
+            }
+            else
+            {
+                pobierz_lekarzy_Click(this, EventArgs.Empty);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (pobierz_lekarzy != null) pobierz_lekarzy.Visible = false;
+            if (dgv2 != null) dgv2.Visible = false;
+            if (Dodaj_lekarza != null) Dodaj_lekarza.Visible = false;
+            if (Usun_lekarza != null) Usun_lekarza.Visible = false;
+
+            if (id_lekarza != null) id_lekarza.Visible = false;
+            if (txt_lekarz_id != null) txt_lekarz_id.Visible = false;
+            if (potwierdz_lek != null) potwierdz_lek.Visible = false;
+
+            var panelList = this.Controls.Find("panelList", true).FirstOrDefault();
+            var panelEdit = this.Controls.Find("panelEdit", true).FirstOrDefault();
+            if (panelList != null) panelList.Visible = false;
+            if (panelEdit != null) panelEdit.Visible = false;
+
             if (dgv1 != null) dgv1.Visible = true;
             if (button6 != null) button6.Visible = true;
             if (button7 != null) button7.Visible = true;
             if (button8 != null) button8.Visible = true;
+
+            if (labelId != null) labelId.Visible = false;
+            if (txt_id != null) txt_id.Visible = false;
+            if (btnPotwierdz != null) btnPotwierdz.Visible = false;
 
             if (button6 != null) button6.PerformClick();
         }
@@ -96,6 +136,18 @@ namespace Przychodnia
             if (button7 != null) button7.Visible = false;
             if (button8 != null) button8.Visible = false;
 
+            if (labelId != null) labelId.Visible = false;
+            if (txt_id != null) txt_id.Visible = false;
+            if (btnPotwierdz != null) btnPotwierdz.Visible = false;
+
+            if (pobierz_lekarzy != null) pobierz_lekarzy.Visible = false;
+            if (dgv2 != null) dgv2.Visible = false;
+            if (Dodaj_lekarza != null) Dodaj_lekarza.Visible = false;
+            if (Usun_lekarza != null) Usun_lekarza.Visible = false;
+
+            if (id_lekarza != null) id_lekarza.Visible = false;
+            if (txt_lekarz_id != null) txt_lekarz_id.Visible = false;
+            if (potwierdz_lek != null) potwierdz_lek.Visible = false;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -105,6 +157,18 @@ namespace Przychodnia
             if (button7 != null) button7.Visible = false;
             if (button8 != null) button8.Visible = false;
 
+            if (labelId != null) labelId.Visible = false;
+            if (txt_id != null) txt_id.Visible = false;
+            if (btnPotwierdz != null) btnPotwierdz.Visible = false;
+
+            if (pobierz_lekarzy != null) pobierz_lekarzy.Visible = false;
+            if (dgv2 != null) dgv2.Visible = false;
+            if (Dodaj_lekarza != null) Dodaj_lekarza.Visible = false;
+            if (Usun_lekarza != null) Usun_lekarza.Visible = false;
+
+            if (id_lekarza != null) id_lekarza.Visible = false;
+            if (txt_lekarz_id != null) txt_lekarz_id.Visible = false;
+            if (potwierdz_lek != null) potwierdz_lek.Visible = false;
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -141,7 +205,6 @@ namespace Przychodnia
             if (confirm != DialogResult.Yes)
                 return;
 
-            // Usuń użytkownika z bazy (parametryzowane, bez concatenation)
             try
             {
                 using var conn = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
@@ -155,10 +218,8 @@ namespace Przychodnia
                 {
                     MessageBox.Show($"Usunięto użytkownika o ID = {id}.", "Usunięto", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // odśwież listę użytkowników, jeśli widoczna
                     if (button6 != null) button6.PerformClick();
 
-                    // schowaj pola po usunięciu
                     if (labelId != null) labelId.Visible = false;
                     if (txt_id != null) txt_id.Visible = false;
                     if (btnPotwierdz != null) btnPotwierdz.Visible = false;
@@ -179,6 +240,147 @@ namespace Przychodnia
             Dod_uzy f1 = new Dod_uzy();
             f1.Show();
             this.Close();
+        }
+
+        private void pobierz_lekarzy_Click(object sender, EventArgs e)
+        {
+            using (Microsoft.Data.SqlClient.SqlConnection sqlCon = new Microsoft.Data.SqlClient.SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                Microsoft.Data.SqlClient.SqlDataAdapter sqlDa = new Microsoft.Data.SqlClient.SqlDataAdapter("SELECT * FROM dbo.lekarze", sqlCon);
+                DataTable dtbl = new DataTable();
+                sqlDa.Fill(dtbl);
+                if (dgv2 != null) dgv2.DataSource = dtbl;
+            }
+        }
+
+        private void Dodaj_lekarza_Click(object sender, EventArgs e)
+        {
+            Dod_lek dodLekForm = new Dod_lek();
+            dodLekForm.Show();
+            this.Close();
+        }
+
+        private void Usun_lekarza_Click(object sender, EventArgs e)
+        {
+            if (id_lekarza != null) id_lekarza.Visible = true;
+            if (txt_lekarz_id != null)
+            {
+                txt_lekarz_id.Visible = true;
+                txt_lekarz_id.Text = string.Empty;
+                txt_lekarz_id.Focus();
+            }
+            if (potwierdz_lek != null) potwierdz_lek.Visible = true;
+        }
+
+        private void potwierdz_lek_Click(object sender, EventArgs e)
+        {
+            if (txt_lekarz_id == null)
+                return;
+
+            var idText = txt_lekarz_id.Text.Trim();
+            if (string.IsNullOrEmpty(idText))
+            {
+                MessageBox.Show("Wprowadź ID lekarza.", "Brak ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(idText, out int id))
+            {
+                MessageBox.Show("ID musi być liczbą.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show($"Potwierdzasz usunięcie lekarza o ID = {id}?", "Potwierdź usunięcie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using var conn = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
+                using var cmd = new Microsoft.Data.SqlClient.SqlCommand("DELETE FROM dbo.lekarze WHERE Id = @id", conn);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                conn.Open();
+                int affected = cmd.ExecuteNonQuery();
+
+                if (affected > 0)
+                {
+                    MessageBox.Show($"Usunięto lekarza o ID = {id}.", "Usunięto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // odśwież listę lekarzy, jeśli jest widoczna
+                    if (pobierz_lekarzy != null) pobierz_lekarzy.PerformClick();
+
+                    // schowaj pola po usunięciu
+                    if (id_lekarza != null) id_lekarza.Visible = false;
+                    if (txt_lekarz_id != null) txt_lekarz_id.Visible = false;
+                    if (potwierdz_lek != null) potwierdz_lek.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show($"Brak lekarza o ID = {id}.", "Nie znaleziono", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Błąd połączenia / zapytania", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void potwierdz_lek_Click_1(object sender, EventArgs e)
+        {
+            if (txt_id == null)
+                return;
+
+            var idText = txt_lekarz_id.Text.Trim();
+            if (string.IsNullOrEmpty(idText))
+            {
+                MessageBox.Show("Wprowadź ID Lekarza.", "Brak ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(idText, out int id))
+            {
+                MessageBox.Show("ID musi być liczbą.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show($"Potwierdzasz usunięcie Lekarza o ID = {id}?", "Potwierdź usunięcie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using var conn = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
+                using var cmd = new Microsoft.Data.SqlClient.SqlCommand("DELETE FROM dbo.lekarze WHERE Id = @id", conn);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                conn.Open();
+                int affected = cmd.ExecuteNonQuery();
+
+                if (affected > 0)
+                {
+                    MessageBox.Show($"Usunięto lekarza o ID = {id}.", "Usunięto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (button6 != null) button6.PerformClick();
+
+                    if (labelId != null) labelId.Visible = false;
+                    if (txt_id != null) txt_id.Visible = false;
+                    if (btnPotwierdz != null) btnPotwierdz.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show($"Brak lekarza o ID = {id}.", "Nie znaleziono", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Błąd połączenia / zapytania", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Dodaj_lekarza_Click_1(object sender, EventArgs e)
+        {
+         
         }
     }
 }
