@@ -168,6 +168,7 @@
             button7.Text = "Dodaj Użytkownika";
             button7.UseVisualStyleBackColor = true;
             button7.Visible = false;
+            button7.Click += button7_Click;
             // 
             // button8
             // 
@@ -182,30 +183,31 @@
             // labelId
             // 
             labelId.AutoSize = true;
-            labelId.Location = new Point(1252, 119);
+            labelId.Location = new Point(1246, 119);
             labelId.Name = "labelId";
-            labelId.Size = new Size(27, 15);
+            labelId.Size = new Size(90, 15);
             labelId.TabIndex = 6;
-            labelId.Text = " ID  ";
+            labelId.Text = " ID użytkownika";
             labelId.Visible = false;
             // 
             // txt_id
             // 
-            txt_id.Location = new Point(1249, 137);
+            txt_id.Location = new Point(1246, 137);
             txt_id.Name = "txt_id";
-            txt_id.Size = new Size(30, 23);
+            txt_id.Size = new Size(100, 23);
             txt_id.TabIndex = 7;
             txt_id.Visible = false;
             // 
             // btnPotwierdz
             // 
-            btnPotwierdz.Location = new Point(1285, 137);
+            btnPotwierdz.Location = new Point(1352, 137);
             btnPotwierdz.Name = "btnPotwierdz";
             btnPotwierdz.Size = new Size(100, 23);
             btnPotwierdz.TabIndex = 8;
             btnPotwierdz.Text = "Potwierdź";
             btnPotwierdz.UseVisualStyleBackColor = true;
             btnPotwierdz.Visible = false;
+            btnPotwierdz.Click += btnPotwierdz_Click;
             // 
             // Form4
             // 

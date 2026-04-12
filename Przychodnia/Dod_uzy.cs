@@ -13,7 +13,6 @@ namespace Przychodnia
 {
     public partial class Dod_uzy : Form
     {
-        // Dodaj connection string tutaj (możesz przenieść do konfiguracji później)
         private readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Przychodnia;Integrated Security=True;Encrypt=False";
 
         public Dod_uzy()
@@ -23,15 +22,13 @@ namespace Przychodnia
 
         private void Dodaj_uz_Click(object sender, EventArgs e)
         {
-            // Zbierz wartości z pól
             var imie = txt_imie.Text.Trim();
             var nazwisko = txt_nazwisko.Text.Trim();
             var dataUrodzeniaText = txt_datauro.Text.Trim();
             var email = textBox3.Text.Trim();
             var telefon = textBox2.Text.Trim();
-            var haslo = textBox1.Text; // przechowujemy jawnie (tymczasowo)
+            var haslo = textBox1.Text;
 
-            // Walidacja - żadne pole nie może być puste
             if (string.IsNullOrEmpty(imie) ||
                 string.IsNullOrEmpty(nazwisko) ||
                 string.IsNullOrEmpty(dataUrodzeniaText) ||
@@ -43,7 +40,6 @@ namespace Przychodnia
                 return;
             }
 
-            // Walidacja daty
             if (!DateTime.TryParse(dataUrodzeniaText, out DateTime dataUrodzenia))
             {
                 MessageBox.Show("Nieprawidłowy format daty urodzenia.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -55,7 +51,6 @@ namespace Przychodnia
                 using var conn = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
                 conn.Open();
 
-                // Sprawdź, czy email już istnieje
                 using (var cmdCheckEmail = new Microsoft.Data.SqlClient.SqlCommand("SELECT COUNT(1) FROM dbo.urzytkownicy WHERE Email = @email", conn))
                 {
                     cmdCheckEmail.Parameters.AddWithValue("@email", email);
@@ -67,7 +62,6 @@ namespace Przychodnia
                     }
                 }
 
-                // Sprawdź, czy numer telefonu już istnieje
                 using (var cmdCheckPhone = new Microsoft.Data.SqlClient.SqlCommand("SELECT COUNT(1) FROM dbo.urzytkownicy WHERE Phone = @phone", conn))
                 {
                     cmdCheckPhone.Parameters.AddWithValue("@phone", telefon);
@@ -79,7 +73,6 @@ namespace Przychodnia
                     }
                 }
 
-                // Wstawienie użytkownika do bazy danych (parametryzowane, bez hashowania)
                 const string sql = @"
 INSERT INTO dbo.urzytkownicy (FirstName, LastName, DateOfBirth, Phone, Email, Password)
 VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
@@ -92,7 +85,6 @@ VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
                 cmd.Parameters.AddWithValue("@telefon", telefon);
                 cmd.Parameters.AddWithValue("@email", email);
 
-                // Zakładam, że kolumna Password to tekst (nvarchar/varchar). Dostosuj rozmiar jeśli potrzeba.
                 var p = cmd.Parameters.Add("@password", System.Data.SqlDbType.NVarChar, 256);
                 p.Value = haslo;
 
@@ -101,7 +93,7 @@ VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
                 if (rows > 0)
                 {
                     MessageBox.Show("Użytkownik został dodany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // wyczyść pola
+
                     txt_imie.Clear();
                     txt_nazwisko.Clear();
                     txt_datauro.Clear();

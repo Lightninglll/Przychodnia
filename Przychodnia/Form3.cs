@@ -17,6 +17,15 @@ namespace Przychodnia
 			InitializeComponent();
 		}
 
+        public Form3(string displayName)
+        {
+            InitializeComponent();
+            if (!string.IsNullOrEmpty(displayName) && imienazwisko != null)
+            {
+                imienazwisko.Text = displayName;
+            }
+        }
+
 		private void Form3_Load(object sender, EventArgs e)
 		{
 

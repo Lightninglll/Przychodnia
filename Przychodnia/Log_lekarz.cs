@@ -24,20 +24,25 @@ namespace Przychodnia
             var email = txt_login.Text.Trim();
             var haslo = txt_haslo.Text;
 
-            const string sql = "SELECT COUNT(1) FROM dbo.lekarze WHERE email = @email AND Password = @haslo";
+            const string sql = "SELECT FirstName, LastName FROM dbo.lekarze WHERE email = @email AND Password = @haslo";
 
             try
             {
                 using var conn = new Microsoft.Data.SqlClient.SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Przychodnia;Integrated Security=True;Encrypt=False");
                 using var cmd = new Microsoft.Data.SqlClient.SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@email", email);
-                cmd.Parameters.AddWithValue("@haslo", haslo); // na dłuższą metę użyj hashów haseł
+                cmd.Parameters.AddWithValue("@haslo", haslo);
                 conn.Open();
-                int count = Convert.ToInt32(cmd.ExecuteScalar() ?? 0);
 
-                if (count > 0)
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    new Form3().Show();
+                    var firstName = reader.IsDBNull(0) ? string.Empty : reader.GetString(0);
+                    var lastName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+                    var displayName = $"{firstName} {lastName}".Trim();
+
+                    Form2 f2 = new Form2(displayName);
+                    f2.Show();
                     this.Hide();
                 }
                 else
@@ -50,7 +55,7 @@ namespace Przychodnia
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message); // pokaże faktyczny błąd SQL
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -70,4 +75,3 @@ namespace Przychodnia
         }
     }
 }
-   

@@ -2,7 +2,6 @@ namespace Przychodnia
 {
 	public partial class Form1 : Form
 	{
-        // Server=localhost;Database=master;Trusted_Connection=True;
         public Form1()
 		{
 			InitializeComponent();
