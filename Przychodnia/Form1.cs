@@ -2,7 +2,8 @@ namespace Przychodnia
 {
 	public partial class Form1 : Form
 	{
-		public Form1()
+        // Server=localhost;Database=master;Trusted_Connection=True;
+        public Form1()
 		{
 			InitializeComponent();
 		}
@@ -40,14 +41,14 @@ namespace Przychodnia
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			Form2 f2 = new Form2();
+			Log_lekarz f2 = new Log_lekarz();
 			f2.Show();
 			this.Hide();
 		}
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			Form3 f3 = new Form3();
+			Log_urzy f3 = new Log_urzy();
 			f3.Show();
 			this.Hide();
 		}
