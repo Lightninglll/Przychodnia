@@ -29,6 +29,8 @@ namespace Przychodnia
             if (labelId != null) labelId.Visible = false;
             if (txt_id != null) txt_id.Visible = false;
             if (btnPotwierdz != null) btnPotwierdz.Visible = false;
+
+            if (button8 != null) button8.Click += button8_Click;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -135,14 +137,40 @@ namespace Przychodnia
                 return;
             }
 
-            var confirm = MessageBox.Show($"Potwierdzasz operację dla ID = {id}?", "Potwierdź", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm == DialogResult.Yes)
-            {
-                MessageBox.Show($"Potwierdzono operację dla ID = {id}.", "Potwierdzone", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var confirm = MessageBox.Show($"Potwierdzasz usunięcie użytkownika o ID = {id}?", "Potwierdź usunięcie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes)
+                return;
 
-                if (labelId != null) labelId.Visible = false;
-                if (txt_id != null) txt_id.Visible = false;
-                if (btnPotwierdz != null) btnPotwierdz.Visible = false;
+            // Usuń użytkownika z bazy (parametryzowane, bez concatenation)
+            try
+            {
+                using var conn = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
+                using var cmd = new Microsoft.Data.SqlClient.SqlCommand("DELETE FROM dbo.urzytkownicy WHERE Id = @id", conn);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                conn.Open();
+                int affected = cmd.ExecuteNonQuery();
+
+                if (affected > 0)
+                {
+                    MessageBox.Show($"Usunięto użytkownika o ID = {id}.", "Usunięto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // odśwież listę użytkowników, jeśli widoczna
+                    if (button6 != null) button6.PerformClick();
+
+                    // schowaj pola po usunięciu
+                    if (labelId != null) labelId.Visible = false;
+                    if (txt_id != null) txt_id.Visible = false;
+                    if (btnPotwierdz != null) btnPotwierdz.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show($"Brak użytkownika o ID = {id}.", "Nie znaleziono", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Błąd połączenia / zapytania", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
