@@ -82,9 +82,8 @@ namespace Przychodnia
                     }
                 }
 
-                const string sql = @"
-INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
-VALUES (@imie, @nazwisko, @email, @specjalizacja, @telefon, @password, @license)";
+                const string sql = @"INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+                                    VALUES (@imie, @nazwisko, @email, @specjalizacja, @telefon, @password, @license)";
 
                 using var cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@imie", imie);

@@ -60,6 +60,7 @@ namespace Przychodnia
 
         private void button1_Click(object sender, EventArgs e)
         {
+            SetActiveMenuButton(sender as Button);
             // Ukryj elementy związane z zarządzaniem użytkownikami oraz ewentualne pola usuwania
             var toHide = new Control[] { dgv1, button6, button7, button8, labelId, txt_id, btnPotwierdz, pobierz_lekarzy, dgv2, Dodaj_lekarza, Usun_lekarza, id_lekarza, txt_lekarz_id, potwierdz_lek };
             foreach (var c in toHide)
@@ -103,6 +104,8 @@ namespace Przychodnia
 
         private void button2_Click(object sender, EventArgs e)
         {
+            SetActiveMenuButton(sender as Button);
+
             if (pobierz_lekarzy != null) pobierz_lekarzy.Visible = false;
             if (dgv2 != null) dgv2.Visible = false;
             if (Dodaj_lekarza != null) Dodaj_lekarza.Visible = false;
@@ -131,6 +134,8 @@ namespace Przychodnia
 
         private void button3_Click(object sender, EventArgs e)
         {
+            SetActiveMenuButton(sender as Button);
+
             if (dgv1 != null) dgv1.Visible = false;
             if (button6 != null) button6.Visible = false;
             if (button7 != null) button7.Visible = false;
@@ -152,6 +157,8 @@ namespace Przychodnia
 
         private void button4_Click(object sender, EventArgs e)
         {
+            SetActiveMenuButton(sender as Button);
+
             if (dgv1 != null) dgv1.Visible = false;
             if (button6 != null) button6.Visible = false;
             if (button7 != null) button7.Visible = false;
@@ -307,10 +314,9 @@ namespace Przychodnia
                 if (affected > 0)
                 {
                     MessageBox.Show($"Usunięto lekarza o ID = {id}.", "Usunięto", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // odśwież listę lekarzy, jeśli jest widoczna
+
                     if (pobierz_lekarzy != null) pobierz_lekarzy.PerformClick();
 
-                    // schowaj pola po usunięciu
                     if (id_lekarza != null) id_lekarza.Visible = false;
                     if (txt_lekarz_id != null) txt_lekarz_id.Visible = false;
                     if (potwierdz_lek != null) potwierdz_lek.Visible = false;
@@ -381,6 +387,24 @@ namespace Przychodnia
         private void Dodaj_lekarza_Click_1(object sender, EventArgs e)
         {
          
+        }
+
+        private void SetActiveMenuButton(Button active)
+        {
+            var buttons = new[] { button1, button2, button3, button4 };
+
+            foreach (var b in buttons)
+            {
+                if (b == null) continue;
+                b.BackColor = Color.FromArgb(51, 51, 76);
+                b.ForeColor = Color.Gainsboro;
+            }
+
+            if (active != null)
+            {
+                active.BackColor = Color.FromArgb(39, 39, 58);
+                active.ForeColor = Color.White;
+            }
         }
     }
 }
