@@ -83,5 +83,12 @@ namespace Przychodnia
             f1.Show();
             this.Hide();
         }
+
+        private void Rejestracja_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            rej_uzy f2 = new rej_uzy();
+            f2.Show();
+            this.Close();
+        }
     }
 }

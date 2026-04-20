@@ -36,6 +36,7 @@
             button_login = new Button();
             button_clear = new Button();
             button_exit = new Button();
+            Rejestracja = new LinkLabel();
             SuspendLayout();
             // 
             // label2
@@ -110,11 +111,23 @@
             button_exit.UseVisualStyleBackColor = true;
             button_exit.Click += button_exit_Click;
             // 
+            // Rejestracja
+            // 
+            Rejestracja.AutoSize = true;
+            Rejestracja.Location = new Point(221, 33);
+            Rejestracja.Name = "Rejestracja";
+            Rejestracja.Size = new Size(93, 15);
+            Rejestracja.TabIndex = 9;
+            Rejestracja.TabStop = true;
+            Rejestracja.Text = "Nie masz konta?";
+            Rejestracja.LinkClicked += Rejestracja_LinkClicked;
+            // 
             // Log_urzy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(340, 610);
+            Controls.Add(Rejestracja);
             Controls.Add(button_exit);
             Controls.Add(button_clear);
             Controls.Add(button_login);
@@ -141,5 +154,6 @@
         private Button button_login;
         private Button button_clear;
         private Button button_exit;
+        private LinkLabel Rejestracja;
     }
 }
