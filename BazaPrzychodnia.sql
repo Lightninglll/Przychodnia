@@ -1,10 +1,7 @@
--- Created by GitHub Copilot in SSMS - review carefully before executing
-
 IF DB_ID(N'Przychodnia') IS NULL
 BEGIN
     CREATE DATABASE [Przychodnia];
 END
--- Utworzenie tabel z pełnymi dwuczęściowymi nazwami (dbo) — uruchomić na serwerze, gdzie ma istnieć baza.
 
 CREATE TABLE [Przychodnia].dbo.lekarze(
     id_lekarz INT IDENTITY(1,1) NOT NULL,
