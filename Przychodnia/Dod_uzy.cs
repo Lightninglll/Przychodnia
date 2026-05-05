@@ -29,6 +29,16 @@ namespace Przychodnia
             var telefon = textBox2.Text.Trim();
             var haslo = textBox1.Text;
 
+            // pobierz wartość z comboboxa CzyAdmin
+            var czyAdminText = CzyAdmin?.Text?.Trim();
+            if (string.IsNullOrEmpty(czyAdminText))
+            {
+                MessageBox.Show("Wybierz czy użytkownik ma uprawnienia administratora (Tak/Nie).", "Brak wyboru", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int czyAdminValue = string.Equals(czyAdminText, "tak", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+
             if (string.IsNullOrEmpty(imie) ||
                 string.IsNullOrEmpty(nazwisko) ||
                 string.IsNullOrEmpty(dataUrodzeniaText) ||
@@ -74,8 +84,8 @@ namespace Przychodnia
                 }
 
                 const string sql = @"
-INSERT INTO dbo.urzytkownicy (FirstName, LastName, DateOfBirth, Phone, Email, Password)
-VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, DateOfBirth, Phone, Email, Password, CzyAdmin)
+VALUES (@imie, @nazwisko, @data, @telefon, @email, @password, @czyAdmin)";
 
                 using var cmd = new Microsoft.Data.SqlClient.SqlCommand(sql, conn);
 
@@ -87,6 +97,8 @@ VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
 
                 var p = cmd.Parameters.Add("@password", System.Data.SqlDbType.NVarChar, 256);
                 p.Value = haslo;
+
+                cmd.Parameters.AddWithValue("@czyAdmin", czyAdminValue);
 
                 int rows = cmd.ExecuteNonQuery();
 
@@ -100,6 +112,8 @@ VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
                     textBox3.Clear();
                     textBox2.Clear();
                     textBox1.Clear();
+
+                    if (CzyAdmin != null) CzyAdmin.SelectedIndex = -1;
                 }
                 else
                 {
@@ -116,6 +130,11 @@ VALUES (@imie, @nazwisko, @data, @telefon, @email, @password)";
             Form4 f1 = new Form4();
             f1.Show();
             this.Close();
+        }
+
+        private void CzyAdmin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -39,6 +39,14 @@ namespace Przychodnia
             if (button8 != null) button8.Click += button8_Click;
         }
 
+        public Form4(string loggedDisplayName) : this()
+        {
+            if (!string.IsNullOrEmpty(loggedDisplayName) && Zalog != null)
+            {
+                Zalog.Text = loggedDisplayName;
+            }
+        }
+
         private void button5_Click(object sender, EventArgs e)
         {
             Form1 f1 = new Form1();
@@ -386,7 +394,7 @@ namespace Przychodnia
 
         private void Dodaj_lekarza_Click_1(object sender, EventArgs e)
         {
-         
+
         }
 
         private void SetActiveMenuButton(Button active)
@@ -405,6 +413,11 @@ namespace Przychodnia
                 active.BackColor = Color.FromArgb(39, 39, 58);
                 active.ForeColor = Color.White;
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

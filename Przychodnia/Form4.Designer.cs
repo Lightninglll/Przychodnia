@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             panelMenu = new Panel();
+            Zalog = new Label();
+            label1 = new Label();
             button4 = new Button();
             button3 = new Button();
             button2 = new Button();
@@ -58,6 +60,8 @@
             // panelMenu
             // 
             panelMenu.BackColor = Color.FromArgb(51, 51, 76);
+            panelMenu.Controls.Add(Zalog);
+            panelMenu.Controls.Add(label1);
             panelMenu.Controls.Add(button4);
             panelMenu.Controls.Add(button3);
             panelMenu.Controls.Add(button2);
@@ -68,6 +72,27 @@
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(220, 1041);
             panelMenu.TabIndex = 0;
+            // 
+            // Zalog
+            // 
+            Zalog.AutoSize = true;
+            Zalog.ForeColor = SystemColors.Control;
+            Zalog.Location = new Point(68, 964);
+            Zalog.Name = "Zalog";
+            Zalog.Size = new Size(38, 15);
+            Zalog.TabIndex = 7;
+            Zalog.Text = "label2";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = SystemColors.Control;
+            label1.Location = new Point(55, 938);
+            label1.Name = "label1";
+            label1.Size = new Size(97, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Zalogowany jako";
+            label1.Click += label1_Click;
             // 
             // button4
             // 
@@ -345,5 +370,7 @@
         private Button potwierdz_lek;
         private TextBox txt_lekarz_id;
         private Label id_lekarza;
+        private Label Zalog;
+        private Label label1;
     }
 }

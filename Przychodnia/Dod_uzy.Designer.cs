@@ -43,6 +43,8 @@
             textBox3 = new TextBox();
             Dodaj_uz = new Button();
             button1 = new Button();
+            CzyAdmin = new ComboBox();
+            label8 = new Label();
             SuspendLayout();
             // 
             // txt_imie
@@ -171,11 +173,33 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // CzyAdmin
+            // 
+            CzyAdmin.DropDownStyle = ComboBoxStyle.DropDownList;
+            CzyAdmin.FormattingEnabled = true;
+            CzyAdmin.Items.AddRange(new object[] { "Tak", "Nie" });
+            CzyAdmin.Location = new Point(305, 246);
+            CzyAdmin.Name = "CzyAdmin";
+            CzyAdmin.Size = new Size(121, 23);
+            CzyAdmin.TabIndex = 15;
+            CzyAdmin.SelectedIndexChanged += CzyAdmin_SelectedIndexChanged;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(333, 228);
+            label8.Name = "label8";
+            label8.Size = new Size(65, 15);
+            label8.TabIndex = 16;
+            label8.Text = "Czy Admin";
+            // 
             // Dod_uzy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label8);
+            Controls.Add(CzyAdmin);
             Controls.Add(button1);
             Controls.Add(Dodaj_uz);
             Controls.Add(label5);
@@ -214,5 +238,7 @@
         private TextBox textBox3;
         private Button Dodaj_uz;
         private Button button1;
+        private ComboBox CzyAdmin;
+        private Label label8;
     }
 }

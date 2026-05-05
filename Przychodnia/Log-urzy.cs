@@ -31,8 +31,7 @@ namespace Przychodnia
             var email = txt_login.Text.Trim();
             var haslo = txt_haslo.Text;
 
-            // Pobieramy imię i nazwisko zamiast samego COUNT(1)
-            const string sql = "SELECT FirstName, LastName FROM dbo.urzytkownicy WHERE email = @email AND Password = @haslo";
+            const string sql = "SELECT FirstName, LastName, CzyAdmin FROM dbo.urzytkownicy WHERE email = @email AND Password = @haslo";
 
             try
             {
@@ -49,10 +48,32 @@ namespace Przychodnia
                     var lastName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
                     var displayName = $"{firstName} {lastName}".Trim();
 
-                    // Przekazujemy imię i nazwisko do Form3
-                    Form3 f3 = new Form3(displayName);
-                    f3.Show();
-                    this.Hide();
+                    bool isAdmin = false;
+                    if (!reader.IsDBNull(2))
+                    {
+                        var value = reader.GetValue(2);
+                        try
+                        {
+                            isAdmin = Convert.ToInt32(value) == 1;
+                        }
+                        catch
+                        {
+                            try { isAdmin = Convert.ToBoolean(value); } catch { isAdmin = false; }
+                        }
+                    }
+
+                    if (isAdmin)
+                    {
+                        Form4 adminForm = new Form4(displayName);
+                        adminForm.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        Form3 f3 = new Form3(displayName);
+                        f3.Show();
+                        this.Hide();
+                    }
                 }
                 else
                 {
@@ -65,7 +86,7 @@ namespace Przychodnia
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message); // pokaże faktyczny błąd SQL
+                MessageBox.Show(ex.Message);
             }
         }
 
