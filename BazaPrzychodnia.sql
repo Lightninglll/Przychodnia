@@ -1,10 +1,7 @@
--- Created by GitHub Copilot in SSMS - review carefully before executing
-
 IF DB_ID(N'Przychodnia') IS NULL
 BEGIN
     CREATE DATABASE [Przychodnia];
 END
--- Utworzenie tabel z pełnymi dwuczęściowymi nazwami (dbo) — uruchomić na serwerze, gdzie ma istnieć baza.
 
 CREATE TABLE [Przychodnia].dbo.lekarze(
     id_lekarz INT IDENTITY(1,1) NOT NULL,
@@ -13,7 +10,7 @@ CREATE TABLE [Przychodnia].dbo.lekarze(
     Email VARCHAR(255) NOT NULL,
     Specialization VARCHAR(100) NOT NULL,
     Phone VARCHAR(20) NULL,
-    Password VARBINARY(256) NOT NULL,
+    Password VARCHAR(256) NOT NULL,
     LicenseNumber VARCHAR(50) NULL,
     CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
     CONSTRAINT PK_lekarze PRIMARY KEY CLUSTERED (id_lekarz)
@@ -28,7 +25,8 @@ CREATE TABLE [Przychodnia].dbo.urzytkownicy(
     DateOfBirth DATE NULL,
     Phone VARCHAR(20) NULL,
     Email VARCHAR(255) NOT NULL,
-    Password VARBINARY(256) NOT NULL,
+    Password VARCHAR(256) NOT NULL,
+    CzyAdmin bit NOT NULL CONSTRAINT DEFAULT (0);
     CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
     CONSTRAINT PK_urzytkownicy PRIMARY KEY CLUSTERED (id_uzytkownik)
 ) ON [PRIMARY];
@@ -55,16 +53,6 @@ CREATE TABLE [Przychodnia].dbo.wizyty(
     CONSTRAINT PK_wizyty PRIMARY KEY CLUSTERED (id_wizyta)
 ) ON [PRIMARY];
 
-CREATE TABLE admin(
-    id_admin INT IDENTITY(1,1) PRIMARY KEY,
-    FirstName VARCHAR(50) NOT NULL,
-    LastName VARCHAR(50) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Phone VARCHAR(20) NULL,
-    Password VARBINARY(256) NOT NULL,
-    CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME()
-);
-
 ALTER TABLE [Przychodnia].dbo.recepty
     ADD CONSTRAINT FK_recepty_lekarze FOREIGN KEY (id_lekarz)
     REFERENCES [Przychodnia].dbo.lekarze(id_lekarz);
@@ -80,3 +68,5 @@ ALTER TABLE [Przychodnia].dbo.wizyty
 ALTER TABLE [Przychodnia].dbo.wizyty
     ADD CONSTRAINT FK_wizyty_urzytkownicy FOREIGN KEY (id_uzytkownik)
     REFERENCES [Przychodnia].dbo.urzytkownicy(id_uzytkownik);
+
+ALTER TABLE wizyty ADD data date;
