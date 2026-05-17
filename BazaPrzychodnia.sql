@@ -68,3 +68,5 @@ ALTER TABLE [Przychodnia].dbo.wizyty
 ALTER TABLE [Przychodnia].dbo.wizyty
     ADD CONSTRAINT FK_wizyty_urzytkownicy FOREIGN KEY (id_uzytkownik)
     REFERENCES [Przychodnia].dbo.urzytkownicy(id_uzytkownik);
+
+ALTER TABLE wizyty ADD data date;
