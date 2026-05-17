@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
 
 namespace Przychodnia
@@ -31,7 +30,8 @@ namespace Przychodnia
             var email = txt_login.Text.Trim();
             var haslo = txt_haslo.Text;
 
-            const string sql = "SELECT FirstName, LastName, CzyAdmin FROM dbo.urzytkownicy WHERE email = @email AND Password = @haslo";
+            // Pobieramy Id, imię, nazwisko oraz informację czy jest admin (CzyAdmin)
+            const string sql = "SELECT id_uzytkownik, FirstName, LastName, CzyAdmin FROM dbo.urzytkownicy WHERE email = @email AND Password = @haslo";
 
             try
             {
@@ -44,14 +44,15 @@ namespace Przychodnia
                 using var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    var firstName = reader.IsDBNull(0) ? string.Empty : reader.GetString(0);
-                    var lastName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+                    int userId = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var firstName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+                    var lastName = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
                     var displayName = $"{firstName} {lastName}".Trim();
 
                     bool isAdmin = false;
-                    if (!reader.IsDBNull(2))
+                    if (!reader.IsDBNull(3))
                     {
-                        var value = reader.GetValue(2);
+                        var value = reader.GetValue(3);
                         try
                         {
                             isAdmin = Convert.ToInt32(value) == 1;
@@ -70,7 +71,8 @@ namespace Przychodnia
                     }
                     else
                     {
-                        Form3 f3 = new Form3(displayName);
+                        // przekazujemy również id użytkownika do Form3
+                        Form3 f3 = new Form3(displayName, userId);
                         f3.Show();
                         this.Hide();
                     }

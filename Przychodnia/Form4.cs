@@ -69,7 +69,6 @@ namespace Przychodnia
         private void button1_Click(object sender, EventArgs e)
         {
             SetActiveMenuButton(sender as Button);
-            // Ukryj elementy związane z zarządzaniem użytkownikami oraz ewentualne pola usuwania
             var toHide = new Control[] { dgv1, button6, button7, button8, labelId, txt_id, btnPotwierdz, pobierz_lekarzy, dgv2, Dodaj_lekarza, Usun_lekarza, id_lekarza, txt_lekarz_id, potwierdz_lek };
             foreach (var c in toHide)
             {

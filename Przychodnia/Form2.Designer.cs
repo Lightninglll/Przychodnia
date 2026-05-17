@@ -37,8 +37,11 @@
             button1 = new Button();
             panelLogo = new Panel();
             button5 = new Button();
+            dgvWizyty = new DataGridView();
+            Pobierz = new Button();
             panelMenu.SuspendLayout();
             panelLogo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvWizyty).BeginInit();
             SuspendLayout();
             // 
             // panelMenu
@@ -154,6 +157,24 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
+            // dgvWizyty
+            // 
+            dgvWizyty.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvWizyty.Location = new Point(592, 200);
+            dgvWizyty.Name = "dgvWizyty";
+            dgvWizyty.Size = new Size(989, 548);
+            dgvWizyty.TabIndex = 1;
+            // 
+            // Pobierz
+            // 
+            Pobierz.Location = new Point(1047, 124);
+            Pobierz.Name = "Pobierz";
+            Pobierz.Size = new Size(113, 39);
+            Pobierz.TabIndex = 2;
+            Pobierz.Text = "Pobierz Dane";
+            Pobierz.UseVisualStyleBackColor = true;
+            Pobierz.Click += Pobierz_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -161,6 +182,8 @@
             AutoScroll = true;
             AutoSize = true;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(Pobierz);
+            Controls.Add(dgvWizyty);
             Controls.Add(panelMenu);
             Name = "Form2";
             Text = "Panel Lekarza";
@@ -169,6 +192,7 @@
             panelMenu.PerformLayout();
             panelLogo.ResumeLayout(false);
             panelLogo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvWizyty).EndInit();
             ResumeLayout(false);
         }
 
@@ -183,5 +207,7 @@
         private Label label1;
 		private Button button5;
         private Label label;
+        private DataGridView dgvWizyty;
+        private Button Pobierz;
     }
 }
