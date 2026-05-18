@@ -175,6 +175,17 @@
             Pobierz.UseVisualStyleBackColor = true;
             Pobierz.Click += Pobierz_Click;
             // 
+            // btnEdytujOpis
+            // 
+            btnEdytujOpis = new Button();
+            btnEdytujOpis.Location = new Point(1180, 124);
+            btnEdytujOpis.Name = "btnEdytujOpis";
+            btnEdytujOpis.Size = new Size(120, 39);
+            btnEdytujOpis.TabIndex = 3;
+            btnEdytujOpis.Text = "Edytuj opis";
+            btnEdytujOpis.UseVisualStyleBackColor = true;
+            btnEdytujOpis.Click += btnEdytujOpis_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -183,6 +194,7 @@
             AutoSize = true;
             ClientSize = new Size(1904, 1041);
             Controls.Add(Pobierz);
+
             Controls.Add(dgvWizyty);
             Controls.Add(panelMenu);
             Name = "Form2";
@@ -209,5 +221,6 @@
         private Label label;
         private DataGridView dgvWizyty;
         private Button Pobierz;
+        private Button btnEdytujOpis;
     }
 }
