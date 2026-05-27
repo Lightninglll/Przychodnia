@@ -36,15 +36,6 @@
             button1 = new Button();
             panelLogo = new Panel();
             button5 = new Button();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
-            comboBox3 = new ComboBox();
-            button2 = new Button();
-            comboBox4 = new ComboBox();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
             panelMenu.SuspendLayout();
             panelLogo.SuspendLayout();
             SuspendLayout();
@@ -147,83 +138,6 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(635, 237);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 1;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(799, 237);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(121, 23);
-            comboBox2.TabIndex = 2;
-            // 
-            // comboBox3
-            // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(969, 237);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(121, 23);
-            comboBox3.TabIndex = 3;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(902, 309);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 4;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(1131, 237);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(121, 23);
-            comboBox4.TabIndex = 5;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(668, 196);
-            label2.Name = "label2";
-            label2.Size = new Size(40, 15);
-            label2.TabIndex = 6;
-            label2.Text = "Lekarz";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(843, 198);
-            label3.Name = "label3";
-            label3.Size = new Size(31, 15);
-            label3.TabIndex = 7;
-            label3.Text = "Data";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(1014, 196);
-            label4.Name = "label4";
-            label4.Size = new Size(50, 15);
-            label4.TabIndex = 8;
-            label4.Text = "Godzina";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(1151, 196);
-            label5.Name = "label5";
-            label5.Size = new Size(73, 15);
-            label5.TabIndex = 9;
-            label5.Text = "Specjalizacja";
-            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -231,15 +145,6 @@
             AutoScroll = true;
             AutoSize = true;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(comboBox4);
-            Controls.Add(button2);
-            Controls.Add(comboBox3);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
             Controls.Add(panelMenu);
             Name = "Form3";
             Text = "Panel Pacjenta";
@@ -248,7 +153,6 @@
             panelMenu.PerformLayout();
             panelLogo.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -261,14 +165,5 @@
 		private Button button5;
         private Label imienazwisko;
         private Label label1;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
-        private ComboBox comboBox3;
-        private Button button2;
-        private ComboBox comboBox4;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
     }
 }

@@ -39,9 +39,15 @@
             button5 = new Button();
             dgvWizyty = new DataGridView();
             Pobierz = new Button();
+            btnEdytujOpis = new Button();
+            // nowe kontrolki
+            btnDane = new Button();
+            dgvHistoria = new DataGridView();
+
             panelMenu.SuspendLayout();
             panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvWizyty).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvHistoria).BeginInit();
             SuspendLayout();
             // 
             // panelMenu
@@ -107,6 +113,7 @@
             button3.TabIndex = 4;
             button3.Text = "Historia Wizyt";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -175,6 +182,26 @@
             Pobierz.UseVisualStyleBackColor = true;
             Pobierz.Click += Pobierz_Click;
             // 
+            // btnDane (nowy) - ładuje historię (wizyty przeszłe) dla zalogowanego lekarza
+            // 
+            btnDane.Location = new Point(1166, 124);
+            btnDane.Name = "btnDane";
+            btnDane.Size = new Size(120, 39);
+            btnDane.TabIndex = 4;
+            btnDane.Text = "Pobierz historię";
+            btnDane.UseVisualStyleBackColor = true;
+            btnDane.Visible = false;
+            btnDane.Click += btnDane_Click;
+            // 
+            // dgvHistoria (nowy) - ukryty domyślnie
+            // 
+            dgvHistoria.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvHistoria.Location = new Point(592, 200);
+            dgvHistoria.Name = "dgvHistoria";
+            dgvHistoria.Size = new Size(989, 548);
+            dgvHistoria.TabIndex = 5;
+            dgvHistoria.Visible = false;
+            // 
             // btnEdytujOpis
             // 
             btnEdytujOpis = new Button();
@@ -193,8 +220,9 @@
             AutoScroll = true;
             AutoSize = true;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(btnDane);
             Controls.Add(Pobierz);
-
+            Controls.Add(dgvHistoria);
             Controls.Add(dgvWizyty);
             Controls.Add(panelMenu);
             Name = "Form2";
@@ -205,6 +233,7 @@
             panelLogo.ResumeLayout(false);
             panelLogo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvWizyty).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvHistoria).EndInit();
             ResumeLayout(false);
         }
 
@@ -222,5 +251,9 @@
         private DataGridView dgvWizyty;
         private Button Pobierz;
         private Button btnEdytujOpis;
+
+        // nowe kontrolki
+        private Button btnDane;
+        private DataGridView dgvHistoria;
     }
 }

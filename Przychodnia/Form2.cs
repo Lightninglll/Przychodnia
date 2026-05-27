@@ -7,16 +7,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace Przychodnia
 {
     public partial class Form2 : Form
     {
         string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Przychodnia;Integrated Security=True;Encrypt=False";
+
+        // id aktualnie zalogowanego lekarza (0 = brak)
+        private int loggedDoctorId = 0;
+
         public Form2()
         {
             InitializeComponent();
             AttachHandlers();
+        }
+
+        // przeciążony konstruktor przyjmujący nazwę i id lekarza
+        public Form2(string displayName, int doctorId) : this()
+        {
+            loggedDoctorId = doctorId;
+            if (!string.IsNullOrEmpty(displayName) && label1 != null)
+            {
+                label1.Text = displayName;
+            }
         }
 
         public Form2(string displayName)
@@ -68,13 +83,92 @@ namespace Przychodnia
 
         private void Pobierz_Click(object sender, EventArgs e)
         {
-            using (Microsoft.Data.SqlClient.SqlConnection sqlCon = new Microsoft.Data.SqlClient.SqlConnection(connectionString))
+            try
             {
+                using (var sqlCon = new Microsoft.Data.SqlClient.SqlConnection(connectionString))
+                {
+                    sqlCon.Open();
+
+                    // filtr: tylko przyszłe daty (Data_Wizyty >= dziś)
+                    // oraz jeśli znamy id lekarza (loggedDoctorId > 0) to filtrujemy po nim
+                    string sql;
+                    if (loggedDoctorId > 0)
+                    {
+                        sql = @"SELECT * FROM dbo.wizyty
+                                WHERE id_lekarz = @id_lekarz
+                                  AND Data_Wizyty >= CAST(GETDATE() AS DATE)
+                                ORDER BY Data_Wizyty, godzina";
+                        using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
+                        da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);
+                        DataTable dtbl = new DataTable();
+                        da.Fill(dtbl);
+                        dgvWizyty.DataSource = dtbl;
+                        // jeśli był widoczny dgvHistoria, ukryj aby nie mieszać widoków
+                        if (dgvHistoria != null) dgvHistoria.Visible = false;
+                    }
+                    else
+                    {
+                        // jeśli nie mamy id lekarza, pokaż wszystkie przyszłe wizyty
+                        sql = @"SELECT * FROM dbo.wizyty
+                                WHERE Data_Wizyty >= CAST(GETDATE() AS DATE)
+                                ORDER BY id_lekarz, Data_Wizyty, godzina";
+                        using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
+                        DataTable dtbl = new DataTable();
+                        da.Fill(dtbl);
+                        dgvWizyty.DataSource = dtbl;
+                        if (dgvHistoria != null) dgvHistoria.Visible = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Błąd pobierania wizyt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // handler dla przycisku "Historia Wizyt" - pokazuje przycisk pobierania historii i grid
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (btnDane != null) btnDane.Visible = true;
+            if (dgvHistoria != null) dgvHistoria.Visible = true;
+            // ukryj bieżące wizyty, żeby nie nachodziły
+            if (dgvWizyty != null) dgvWizyty.Visible = false;
+        }
+
+        // pobiera i pokazuje w dgvHistoria historię (wizyty przeszłe) przypisaną do zalogowanego lekarza
+        private void btnDane_Click(object sender, EventArgs e)
+        {
+            if (loggedDoctorId == 0)
+            {
+                MessageBox.Show("Brak identyfikatora zalogowanego lekarza.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using var sqlCon = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
                 sqlCon.Open();
-                Microsoft.Data.SqlClient.SqlDataAdapter sqlDa = new Microsoft.Data.SqlClient.SqlDataAdapter("SELECT * FROM dbo.wizyty", sqlCon);
+
+                string sql = @"
+SELECT * FROM dbo.wizyty
+WHERE id_lekarz = @id_lekarz
+  AND Data_Wizyty < CAST(GETDATE() AS DATE)
+ORDER BY Data_Wizyty DESC, godzina DESC";
+
+                using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
+                da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);
                 DataTable dtbl = new DataTable();
-                sqlDa.Fill(dtbl);
-                dgvWizyty.DataSource = dtbl;
+                da.Fill(dtbl);
+
+                if (dgvHistoria != null)
+                {
+                    dgvHistoria.DataSource = dtbl;
+                    dgvHistoria.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Błąd pobierania historii", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

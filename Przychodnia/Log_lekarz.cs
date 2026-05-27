@@ -24,7 +24,8 @@ namespace Przychodnia
             var email = txt_login.Text.Trim();
             var haslo = txt_haslo.Text;
 
-            const string sql = "SELECT FirstName, LastName FROM dbo.lekarze WHERE email = @email AND Password = @haslo";
+            // Pobieramy Id, Imię i Nazwisko lekarza
+            const string sql = "SELECT id_lekarz, FirstName, LastName FROM dbo.lekarze WHERE email = @email AND Password = @haslo";
 
             try
             {
@@ -37,11 +38,22 @@ namespace Przychodnia
                 using var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    var firstName = reader.IsDBNull(0) ? string.Empty : reader.GetString(0);
-                    var lastName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+                    int doctorId = 0;
+                    try
+                    {
+                        doctorId = reader.IsDBNull(0) ? 0 : Convert.ToInt32(reader.GetValue(0));
+                    }
+                    catch
+                    {
+                        doctorId = 0;
+                    }
+
+                    var firstName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1);
+                    var lastName = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
                     var displayName = $"{firstName} {lastName}".Trim();
 
-                    Form2 f2 = new Form2(displayName);
+                    // Przekazujemy id lekarza do Form2, aby filtrować wizyty
+                    Form2 f2 = new Form2(displayName, doctorId);
                     f2.Show();
                     this.Hide();
                 }
