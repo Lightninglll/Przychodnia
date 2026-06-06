@@ -94,10 +94,12 @@ namespace Przychodnia
                     string sql;
                     if (loggedDoctorId > 0)
                     {
-                        sql = @"SELECT * FROM dbo.wizyty
-                                WHERE id_lekarz = @id_lekarz
-                                  AND Data_Wizyty >= CAST(GETDATE() AS DATE)
-                                ORDER BY Data_Wizyty, godzina";
+                        sql = @"SELECT w.*, ISNULL(l.FirstName + ' ' + l.LastName, '') AS Lekarz
+                                FROM dbo.wizyty w
+                                LEFT JOIN dbo.lekarze l ON w.id_lekarz = l.id_lekarz
+                                WHERE w.id_lekarz = @id_lekarz
+                                  AND w.Data_Wizyty >= CAST(GETDATE() AS DATE)
+                                ORDER BY w.Data_Wizyty";
                         using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
                         da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);
                         DataTable dtbl = new DataTable();
@@ -109,9 +111,11 @@ namespace Przychodnia
                     else
                     {
                         // jeśli nie mamy id lekarza, pokaż wszystkie przyszłe wizyty
-                        sql = @"SELECT * FROM dbo.wizyty
-                                WHERE Data_Wizyty >= CAST(GETDATE() AS DATE)
-                                ORDER BY id_lekarz, Data_Wizyty, godzina";
+                        sql = @"SELECT w.*, ISNULL(l.FirstName + ' ' + l.LastName, '') AS Lekarz
+                                FROM dbo.wizyty w
+                                LEFT JOIN dbo.lekarze l ON w.id_lekarz = l.id_lekarz
+                                WHERE w.Data_Wizyty >= CAST(GETDATE() AS DATE)
+                                ORDER BY ISNULL(l.FirstName + ' ' + l.LastName, ''), w.Data_Wizyty";
                         using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
                         DataTable dtbl = new DataTable();
                         da.Fill(dtbl);
@@ -150,10 +154,12 @@ namespace Przychodnia
                 sqlCon.Open();
 
                 string sql = @"
-SELECT * FROM dbo.wizyty
-WHERE id_lekarz = @id_lekarz
-  AND Data_Wizyty < CAST(GETDATE() AS DATE)
-ORDER BY Data_Wizyty DESC, godzina DESC";
+SELECT w.*, ISNULL(l.FirstName + ' ' + l.LastName, '') AS Lekarz
+FROM dbo.wizyty w
+LEFT JOIN dbo.lekarze l ON w.id_lekarz = l.id_lekarz
+WHERE w.id_lekarz = @id_lekarz
+  AND w.Data_Wizyty < CAST(GETDATE() AS DATE)
+ORDER BY w.Data_Wizyty DESC";
 
                 using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
                 da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);

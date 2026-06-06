@@ -85,5 +85,13 @@ namespace Przychodnia
             f1.Show();
             this.Hide();
         }
+
+        private void chkShowHaslo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (txt_haslo != null)
+            {
+                txt_haslo.UseSystemPasswordChar = !((CheckBox)sender).Checked;
+            }
+        }
     }
 }

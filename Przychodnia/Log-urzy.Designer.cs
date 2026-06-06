@@ -79,7 +79,20 @@
             txt_haslo.Location = new Point(123, 265);
             txt_haslo.Name = "txt_haslo";
             txt_haslo.Size = new Size(158, 23);
+            txt_haslo.UseSystemPasswordChar = true;
             txt_haslo.TabIndex = 5;
+            // 
+            // chkShowHaslo
+            // 
+            chkShowHaslo = new CheckBox();
+            chkShowHaslo.AutoSize = true;
+            chkShowHaslo.Location = new Point(287, 267);
+            chkShowHaslo.Name = "chkShowHaslo";
+            chkShowHaslo.Size = new Size(90, 19);
+            chkShowHaslo.TabIndex = 6;
+            chkShowHaslo.Text = "Pokaż hasło";
+            chkShowHaslo.UseVisualStyleBackColor = true;
+            chkShowHaslo.CheckedChanged += chkShowHaslo_CheckedChanged;
             // 
             // button_login
             // 
@@ -126,12 +139,13 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(340, 610);
+            ClientSize = new Size(390, 610);
             Controls.Add(Rejestracja);
             Controls.Add(button_exit);
             Controls.Add(button_clear);
             Controls.Add(button_login);
             Controls.Add(txt_haslo);
+            Controls.Add(chkShowHaslo);
             Controls.Add(txt_login);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -151,6 +165,7 @@
         private Label label4;
         private TextBox txt_login;
         private TextBox txt_haslo;
+        private CheckBox chkShowHaslo;
         private Button button_login;
         private Button button_clear;
         private Button button_exit;
