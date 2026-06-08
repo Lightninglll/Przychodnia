@@ -71,14 +71,33 @@ namespace Przychodnia
 		// przycisk "Rezerwacja wizyty" - pokazuje kontrolki rezerwacji
 		private void button1_Click(object sender, EventArgs e)
 		{
+			// schowaj inne widoki przed pokazaniem kontrol rezerwacji
+			HideOtherViews();
 			ShowReservationControls();
+		}
+
+		// Ukrywa wszystkie widoki niezwiązane z aktualną sekcją
+		private void HideOtherViews()
+		{
+			// ukryj historię jeśli istnieje
+			if (dgvHistoria != null) dgvHistoria.Visible = false;
+
+			// jeżeli powstały inne panele/kontrolki dynamiczne, dodaj ich ukrycie tutaj
+			// np. jeśli inne panele mają konkretne nazwy, można je znaleźć i ukryć:
+			var other = this.Controls.Find("reservationPanel", true).FirstOrDefault() as Control;
+			// nie ukrywamy reservationPanel tutaj (to wywołanie kontroluje które ma być widoczne)
 		}
 
 		private void ShowReservationControls()
 		{
+			// Najpierw ukryj inne widoki
+			HideOtherViews();
+
 			if (reservationPanel != null)
 			{
+				// upewnij się, że tylko panel rezerwacji jest widoczny
 				reservationPanel.Visible = true;
+				reservationPanel.BringToFront();
 				LoadSpecializations();
 				return;
 			}
@@ -392,6 +411,9 @@ ORDER BY w.Data_Wizyty DESC";
 			// jeśli już utworzono kontrolki, tylko pokaż i odśwież dane
 			if (dgvHistoria != null)
 			{
+				// ukryj panel rezerwacji żeby widok był tylko historii
+				if (reservationPanel != null) reservationPanel.Visible = false;
+
 				dgvHistoria.Visible = true;
 				LoadHistoria();
 				return;

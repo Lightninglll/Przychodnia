@@ -52,6 +52,34 @@ namespace Przychodnia
                 dgvWizyty.CellDoubleClick -= dgvWizyty_CellDoubleClick;
                 dgvWizyty.CellDoubleClick += dgvWizyty_CellDoubleClick;
             }
+
+            // podłącz handler dla button2 (Lista Planowanych wizyt)
+            if (this.Controls.Find("button2", true).FirstOrDefault() is Button btn2)
+            {
+                btn2.Click -= button2_Click;
+                btn2.Click += button2_Click;
+            }
+
+            // podłącz handler dla button3 (Historia Wizyt) - pokaż przycisk btnDane
+            if (this.Controls.Find("button3", true).FirstOrDefault() is Button btn3)
+            {
+                btn3.Click -= button3_Click;
+                btn3.Click += button3_Click;
+            }
+
+            // zapewnij, że przycisk Pobierz ma handler (jeśli designer go ustawił inaczej)
+            if (this.Controls.Find("Pobierz", true).FirstOrDefault() is Button pob)
+            {
+                pob.Click -= Pobierz_Click;
+                pob.Click += Pobierz_Click;
+            }
+
+            // podłącz handler dla btnDane (pobranie historii - daty wstecz)
+            if (this.Controls.Find("btnDane", true).FirstOrDefault() is Button bd)
+            {
+                bd.Click -= btnDane_Click;
+                bd.Click += btnDane_Click;
+            }
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -94,34 +122,39 @@ namespace Przychodnia
                     string sql;
                     if (loggedDoctorId > 0)
                     {
-                        sql = @"SELECT w.*, ISNULL(l.FirstName + ' ' + l.LastName, '') AS Lekarz
-                                FROM dbo.wizyty w
-                                LEFT JOIN dbo.lekarze l ON w.id_lekarz = l.id_lekarz
-                                WHERE w.id_lekarz = @id_lekarz
-                                  AND w.Data_Wizyty >= CAST(GETDATE() AS DATE)
-                                ORDER BY w.Data_Wizyty";
+                        sql = @"SELECT * FROM dbo.wizyty
+                                WHERE id_lekarz = @id_lekarz
+                                  AND Data_Wizyty >= CAST(GETDATE() AS DATE)
+                                ORDER BY Data_Wizyty, godzina";
                         using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
                         da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);
                         DataTable dtbl = new DataTable();
                         da.Fill(dtbl);
-                        dgvWizyty.DataSource = dtbl;
-                        // jeśli był widoczny dgvHistoria, ukryj aby nie mieszać widoków
-                        if (dgvHistoria != null) dgvHistoria.Visible = false;
+                        if (dgvWizyty != null)
+                        {
+                            dgvWizyty.DataSource = dtbl;
+                            dgvWizyty.Visible = true;
+                        }
                     }
                     else
                     {
                         // jeśli nie mamy id lekarza, pokaż wszystkie przyszłe wizyty
-                        sql = @"SELECT w.*, ISNULL(l.FirstName + ' ' + l.LastName, '') AS Lekarz
-                                FROM dbo.wizyty w
-                                LEFT JOIN dbo.lekarze l ON w.id_lekarz = l.id_lekarz
-                                WHERE w.Data_Wizyty >= CAST(GETDATE() AS DATE)
-                                ORDER BY ISNULL(l.FirstName + ' ' + l.LastName, ''), w.Data_Wizyty";
+                        sql = @"SELECT * FROM dbo.wizyty
+                                WHERE Data_Wizyty >= CAST(GETDATE() AS DATE)
+                                ORDER BY id_lekarz, Data_Wizyty, godzina";
                         using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
                         DataTable dtbl = new DataTable();
                         da.Fill(dtbl);
-                        dgvWizyty.DataSource = dtbl;
-                        if (dgvHistoria != null) dgvHistoria.Visible = false;
+                        if (dgvWizyty != null)
+                        {
+                            dgvWizyty.DataSource = dtbl;
+                            dgvWizyty.Visible = true;
+                        }
                     }
+
+                    // schowaj inne widoki/history jeśli były widoczne
+                    if (this.Controls.Find("dgvHistoria", true).FirstOrDefault() is DataGridView hist) hist.Visible = false;
+                    if (this.Controls.Find("btnDane", true).FirstOrDefault() is Button bd) bd.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -130,51 +163,122 @@ namespace Przychodnia
             }
         }
 
-        // handler dla przycisku "Historia Wizyt" - pokazuje przycisk pobierania historii i grid
-        private void button3_Click(object sender, EventArgs e)
+        // Nowy handler: po kliknięciu button2 pokaż tylko dgvWizyty i przycisk Pobierz
+        private void button2_Click(object? sender, EventArgs e)
         {
-            if (btnDane != null) btnDane.Visible = true;
-            if (dgvHistoria != null) dgvHistoria.Visible = true;
-            // ukryj bieżące wizyty, żeby nie nachodziły
-            if (dgvWizyty != null) dgvWizyty.Visible = false;
-        }
+            // ukryj panele/elementy niepowiązane
+            var toHide = new Control[] {
+                this.Controls.Find("dgvHistoria", true).FirstOrDefault() as Control,
+                this.Controls.Find("btnDane", true).FirstOrDefault() as Control,
+                this.Controls.Find("reservationPanel", true).FirstOrDefault() as Control,
+                this.Controls.Find("dgv2", true).FirstOrDefault() as Control,
+                this.Controls.Find("pobierz_lekarzy", true).FirstOrDefault() as Control
+            };
 
-        // pobiera i pokazuje w dgvHistoria historię (wizyty przeszłe) przypisaną do zalogowanego lekarza
-        private void btnDane_Click(object sender, EventArgs e)
-        {
-            if (loggedDoctorId == 0)
+            foreach (var c in toHide)
             {
-                MessageBox.Show("Brak identyfikatora zalogowanego lekarza.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (c != null) c.Visible = false;
             }
 
+            // pokaż główny grid wizyt i przycisk Pobierz
+            var grid = this.Controls.Find("dgvWizyty", true).FirstOrDefault() as DataGridView;
+            var pobierzBtn = this.Controls.Find("Pobierz", true).FirstOrDefault() as Button;
+
+            if (grid != null) grid.Visible = true;
+            if (pobierzBtn != null)
+            {
+                pobierzBtn.Visible = true;
+                // użytkownik musi kliknąć pobierz, żeby załadować dane; możesz też wywołać automatycznie:
+                // pobierzBtn.PerformClick();
+            }
+
+            // dodatkowo ukryj edycję opisu jeśli istnieje
+            var btnEdytuj = this.Controls.Find("btnEdytujOpis", true).FirstOrDefault() as Button;
+            if (btnEdytuj != null) btnEdytuj.Visible = true; // zostaw dostępny do edycji wybranej wizyty
+        }
+
+        // Nowy handler: po kliknięciu button3 pokaż przycisk btnDane (historia) i przygotuj grid
+        private void button3_Click(object? sender, EventArgs e)
+        {
+            // ukryj elementy niepotrzebne
+            var toHide = new Control[] {
+                this.Controls.Find("dgvHistoria", true).FirstOrDefault() as Control,
+                this.Controls.Find("Pobierz", true).FirstOrDefault() as Control,
+                this.Controls.Find("reservationPanel", true).FirstOrDefault() as Control,
+                this.Controls.Find("dgv2", true).FirstOrDefault() as Control,
+                this.Controls.Find("pobierz_lekarzy", true).FirstOrDefault() as Control
+            };
+
+            foreach (var c in toHide)
+            {
+                if (c != null) c.Visible = false;
+            }
+
+            // pokaż dgvWizyty i btnDane
+            var grid = this.Controls.Find("dgvWizyty", true).FirstOrDefault() as DataGridView;
+            var btn = this.Controls.Find("btnDane", true).FirstOrDefault() as Button;
+            if (grid != null) grid.Visible = true;
+            if (btn != null)
+            {
+                btn.Visible = true;
+                // zapewnij handler (na wszelki wypadek)
+                btn.Click -= btnDane_Click;
+                btn.Click += btnDane_Click;
+            }
+
+            // pokaż przycisk do edycji opisu, jeśli istnieje
+            var btnEdytuj = this.Controls.Find("btnEdytujOpis", true).FirstOrDefault() as Button;
+            if (btnEdytuj != null) btnEdytuj.Visible = true;
+        }
+
+        // handler dla btnDane: ładuje wizyty z datą do tyłu (Data_Wizyty < dziś)
+        private void btnDane_Click(object? sender, EventArgs e)
+        {
             try
             {
-                using var sqlCon = new Microsoft.Data.SqlClient.SqlConnection(connectionString);
-                sqlCon.Open();
-
-                string sql = @"
-SELECT w.*, ISNULL(l.FirstName + ' ' + l.LastName, '') AS Lekarz
-FROM dbo.wizyty w
-LEFT JOIN dbo.lekarze l ON w.id_lekarz = l.id_lekarz
-WHERE w.id_lekarz = @id_lekarz
-  AND w.Data_Wizyty < CAST(GETDATE() AS DATE)
-ORDER BY w.Data_Wizyty DESC";
-
-                using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
-                da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);
-                DataTable dtbl = new DataTable();
-                da.Fill(dtbl);
-
-                if (dgvHistoria != null)
+                using (var sqlCon = new Microsoft.Data.SqlClient.SqlConnection(connectionString))
                 {
-                    dgvHistoria.DataSource = dtbl;
-                    dgvHistoria.Visible = true;
+                    sqlCon.Open();
+
+                    string sql;
+                    if (loggedDoctorId > 0)
+                    {
+                        sql = @"SELECT * FROM dbo.wizyty
+                                WHERE id_lekarz = @id_lekarz
+                                  AND Data_Wizyty < CAST(GETDATE() AS DATE)
+                                ORDER BY Data_Wizyty DESC, godzina DESC";
+                        using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
+                        da.SelectCommand.Parameters.AddWithValue("@id_lekarz", loggedDoctorId);
+                        DataTable dtbl = new DataTable();
+                        da.Fill(dtbl);
+                        if (dgvWizyty != null)
+                        {
+                            dgvWizyty.DataSource = dtbl;
+                            dgvWizyty.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        sql = @"SELECT * FROM dbo.wizyty
+                                WHERE Data_Wizyty < CAST(GETDATE() AS DATE)
+                                ORDER BY id_lekarz, Data_Wizyty DESC, godzina DESC";
+                        using var da = new Microsoft.Data.SqlClient.SqlDataAdapter(sql, sqlCon);
+                        DataTable dtbl = new DataTable();
+                        da.Fill(dtbl);
+                        if (dgvWizyty != null)
+                        {
+                            dgvWizyty.DataSource = dtbl;
+                            dgvWizyty.Visible = true;
+                        }
+                    }
+
+                    // schowaj przycisk Pobierz skoro pokazujemy historię
+                    if (this.Controls.Find("Pobierz", true).FirstOrDefault() is Button pob) pob.Visible = false;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Błąd pobierania historii", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Błąd pobierania historii wizyt", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -266,8 +370,11 @@ ORDER BY w.Data_Wizyty DESC";
                 if (affected > 0)
                 {
                     MessageBox.Show("Opis zapisany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // odśwież widok
-                    Pobierz.PerformClick();
+                    // odśwież widok - jeśli aktualnie jesteśmy innej sekcji, wybierz domyślnie przyszłe wizyty
+                    if (this.Controls.Find("btnDane", true).FirstOrDefault() is Button bd && bd.Visible)
+                        bd.PerformClick();
+                    else
+                        Pobierz.PerformClick();
                 }
                 else
                 {

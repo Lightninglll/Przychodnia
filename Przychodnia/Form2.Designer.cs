@@ -40,10 +40,8 @@
             dgvWizyty = new DataGridView();
             Pobierz = new Button();
             btnEdytujOpis = new Button();
-            // nowe kontrolki
             btnDane = new Button();
             dgvHistoria = new DataGridView();
-
             panelMenu.SuspendLayout();
             panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvWizyty).BeginInit();
@@ -113,7 +111,6 @@
             button3.TabIndex = 4;
             button3.Text = "Historia Wizyt";
             button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -182,7 +179,17 @@
             Pobierz.UseVisualStyleBackColor = true;
             Pobierz.Click += Pobierz_Click;
             // 
-            // btnDane (nowy) - ładuje historię (wizyty przeszłe) dla zalogowanego lekarza
+            // btnEdytujOpis
+            // 
+            btnEdytujOpis.Location = new Point(1180, 124);
+            btnEdytujOpis.Name = "btnEdytujOpis";
+            btnEdytujOpis.Size = new Size(120, 39);
+            btnEdytujOpis.TabIndex = 3;
+            btnEdytujOpis.Text = "Edytuj opis";
+            btnEdytujOpis.UseVisualStyleBackColor = true;
+            btnEdytujOpis.Click += btnEdytujOpis_Click;
+            // 
+            // btnDane
             // 
             btnDane.Location = new Point(1166, 124);
             btnDane.Name = "btnDane";
@@ -191,9 +198,8 @@
             btnDane.Text = "Pobierz historię";
             btnDane.UseVisualStyleBackColor = true;
             btnDane.Visible = false;
-            btnDane.Click += btnDane_Click;
             // 
-            // dgvHistoria (nowy) - ukryty domyślnie
+            // dgvHistoria
             // 
             dgvHistoria.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvHistoria.Location = new Point(592, 200);
@@ -201,17 +207,6 @@
             dgvHistoria.Size = new Size(989, 548);
             dgvHistoria.TabIndex = 5;
             dgvHistoria.Visible = false;
-            // 
-            // btnEdytujOpis
-            // 
-            btnEdytujOpis = new Button();
-            btnEdytujOpis.Location = new Point(1180, 124);
-            btnEdytujOpis.Name = "btnEdytujOpis";
-            btnEdytujOpis.Size = new Size(120, 39);
-            btnEdytujOpis.TabIndex = 3;
-            btnEdytujOpis.Text = "Edytuj opis";
-            btnEdytujOpis.UseVisualStyleBackColor = true;
-            btnEdytujOpis.Click += btnEdytujOpis_Click;
             // 
             // Form2
             // 
