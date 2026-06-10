@@ -1,0 +1,89 @@
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Adam', 'Kowalski', 'AKowalski@example.com', 'Kardiolog', '8128241713', 'haslo123', 'LIC-PL-0024');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Anna', 'Nowak', 'ANowak@example.com', 'Dermatolog', '8128241714', 'haslo123', 'LIC-PL-0025');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Piotr', 'Wiśniewski', 'PWisniewski@example.com', 'Neurolog', '8128241715', 'haslo123', 'LIC-PL-0026');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Magdalena', 'Wójcik', 'MWojcik@example.com', 'Pediatra', '8128241716', 'haslo123', 'LIC-PL-0027');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Tomasz', 'Kamiński', 'TKaminski@example.com', 'Ortopeda', '8128241717', 'haslo123', 'LIC-PL-0028');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Katarzyna', 'Lewandowska', 'KLewandowska@example.com', 'Ginekolog', '8128241718', 'haslo123', 'LIC-PL-0029');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Marek', 'Zieliński', 'MZielinski@example.com', 'Okulista', '8128241719', 'haslo123', 'LIC-PL-0030');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Joanna', 'Szymańska', 'JSzymanska@example.com', 'Psychiatra', '8128241720', 'haslo123', 'LIC-PL-0031');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Paweł', 'Woźniak', 'PWozniak@example.com', 'Endokrynolog', '8128241721', 'haslo123', 'LIC-PL-0032');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Agnieszka', 'Dąbrowska', 'ADabrowska@example.com', 'Reumatolog', '8128241722', 'haslo123', 'LIC-PL-0033');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Łukasz', 'Kozłowski', 'LKozlowski@example.com', 'Urolog', '8128241723', 'haslo123', 'LIC-PL-0034');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Ewa', 'Jankowska', 'EJankowska@example.com', 'Laryngolog', '8128241724', 'haslo123', 'LIC-PL-0035');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Rafał', 'Mazur', 'RMazur@example.com', 'Chirurg', '8128241725', 'haslo123', 'LIC-PL-0036');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Monika', 'Król', 'MKrol@example.com', 'Pulmonolog', '8128241726', 'haslo123', 'LIC-PL-0037');
+
+INSERT INTO dbo.lekarze (FirstName, LastName, Email, Specialization, Phone, Password, LicenseNumber)
+VALUES ('Grzegorz', 'Kaczmarek', 'GKaczmarek@example.com', 'Gastrolog', '8128241727', 'haslo123', 'LIC-PL-0038');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Adam', 'Kowalski', 'AKowalski@example.com', '15-03-1985', '8128241713', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Anna', 'Nowak', 'ANowak@example.com', '22-07-1992', '8128241714', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Piotr', 'Wiśniewski', 'PWisniewski@example.com', '10-11-1988', '8128241715', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Magdalena', 'Wójcik', 'MWojcik@example.com', '05-01-1995', '8128241716', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Tomasz', 'Kamiński', 'TKaminski@example.com', '18-09-1980', '8128241717', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Katarzyna', 'Lewandowska', 'KLewandowska@example.com', '27-04-1997', '8128241718', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Marek', 'Zieliński', 'MZielinski@example.com', '13-12-1983', '8128241719', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Joanna', 'Szymańska', 'JSzymanska@example.com', '08-06-1991', '8128241720', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Paweł', 'Woźniak', 'PWozniak@example.com', '30-10-1986', '8128241721', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Agnieszka', 'Dąbrowska', 'ADabrowska@example.com', '11-08-1994', '8128241722', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Łukasz', 'Kozłowski', 'LKozlowski@example.com', '24-02-1989', '8128241723', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Ewa', 'Jankowska', 'EJankowska@example.com', '17-05-1996', '8128241724', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Rafał', 'Mazur', 'RMazur@example.com', '02-01-1984', '8128241725', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Monika', 'Król', 'MKrol@example.com', '19-09-1993', '8128241726', 'haslo123');
+
+INSERT INTO dbo.urzytkownicy (FirstName, LastName, Email, DateOfBirth, Phone, Password)
+VALUES ('Grzegorz', 'Kaczmarek', 'GKaczmarek@example.com', '07-12-1987', '8128241727', 'haslo123');
